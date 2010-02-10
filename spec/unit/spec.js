@@ -63,17 +63,36 @@ describe "JM"
       builder.toHTML().should.equal("<ul foo='bar'></ul>");
     end
 
-    it "should store multiple calls"
-      builder.ul();
-      builder.ul();
-
-      builder.toHTML().should.equal("<ul></ul><ul></ul>");
-    end
-
     // pending:
     // it "should handle self-closing tags"
     //   var result = JM.Builder.img({src: "/images/foo.jpg"});
     //   result.should.equal("<img src='/images/foo.jpg' />");
+    // end
+  end
+
+  describe "render"
+    it "should use a pretty syntax"
+      var result = JM.render({}, function() {
+        ul()
+      });
+
+      result.should.equal("<ul></ul>");
+    end
+
+    it "should be able to nest"
+      var result = JM.render({}, function() {
+        ul({}, [
+          li()
+        ])
+      });
+
+      result.should.equal("<ul><li></li></ul>");
+    end
+
+    // pending: todo
+    // it "should take code as a string"
+    //   var result = JM.render({}, "ul()")
+    //   result.should.equal("<ul></ul>");
     // end
   end
 end
