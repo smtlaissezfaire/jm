@@ -102,4 +102,13 @@ describe "JM"
       result.should.equal("<ul id='bar'></ul>");
     end
   end
+
+  describe "version"
+    it "should be at 0.0.1"
+      JM.major.should.equal(0)
+      JM.minor.should.equal(0)
+      JM.tiny.should.equal(1)
+      JM.version.should.equal("0.0.1")
+    end
+  end
 end
