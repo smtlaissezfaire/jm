@@ -4,8 +4,12 @@ describe "JM"
       builder = new JM.Builder;
     end
 
-    it "should have a builder"
+    it "should be a builder"
       (builder instanceof JM.Builder).should.equal(true);
+    end
+
+    it "should be a builder even if missing the new"
+      (JM.Builder() instanceof JM.Builder).should.equal(true);
     end
 
     it 'should self-close a tag'
