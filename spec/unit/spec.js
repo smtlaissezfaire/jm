@@ -54,6 +54,18 @@ describe "JM"
       result.should.equal("<ul foo='bar'><li foo='bar'></li><li></li></ul>");
     end
 
+    it "should have return the html string as toHtml"
+      builder.ul({"foo": "bar"});
+      builder.toHTML().should.equal("<ul foo='bar'></ul>");
+    end
+
+    it "should store multiple calls"
+      builder.ul();
+      builder.ul();
+
+      builder.toHTML().should.equal("<ul></ul><ul></ul>");
+    end
+
     // pending:
     // it "should handle self-closing tags"
     //   var result = JM.Builder.img({src: "/images/foo.jpg"});
