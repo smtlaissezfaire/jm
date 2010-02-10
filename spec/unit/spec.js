@@ -89,10 +89,9 @@ describe "JM"
       result.should.equal("<ul><li></li></ul>");
     end
 
-    // pending: todo
-    // it "should take code as a string"
-    //   var result = JM.render({}, "ul()")
-    //   result.should.equal("<ul></ul>");
-    // end
+    it "should take code as a string"
+      var result = JM.render({}, "ul();")
+      result.should.equal("<ul></ul>");
+    end
   end
 end
