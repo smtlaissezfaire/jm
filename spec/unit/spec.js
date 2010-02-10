@@ -90,8 +90,16 @@ describe "JM"
     end
 
     it "should take code as a string"
-      var result = JM.render({}, "ul();")
+      var result = JM.render({}, "ul();");
       result.should.equal("<ul></ul>");
+    end
+
+    it "should allow local variables in locals"
+      var result = JM.render({foo: "bar"}, function() {
+        ul({id: foo});
+      });
+
+      result.should.equal("<ul id='bar'></ul>");
     end
   end
 end
