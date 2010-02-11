@@ -113,12 +113,12 @@ describe "JM"
   end
 
   describe "Helpers"
-    describe "each"
+    describe "eachOf"
       it("should yield the element when the function takes only one element", function() {
         var collection = [1];
         var results;
 
-        JM.Helpers.each(collection, function(e) {
+        JM.Helpers.eachOf(collection, function(e) {
           results = e;
         });
 
@@ -131,7 +131,7 @@ describe "JM"
         var key_received;
         var value_received;
 
-        JM.Helpers.each(collection, function(key, value) {
+        JM.Helpers.eachOf(collection, function(key, value) {
           key_received   = key;
           value_received = value;
         });
@@ -144,7 +144,7 @@ describe "JM"
         var collection = [false];
         var results;
 
-        JM.Helpers.each(collection, function(e) {
+        JM.Helpers.eachOf(collection, function(e) {
           results = e;
         });
 
