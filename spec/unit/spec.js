@@ -139,6 +139,17 @@ describe "JM"
         key_received.should.equal("0");
         value_received.should.equal(1);
       });
+
+      it("should include keys of 'falsy' values", function() {
+        var collection = [false];
+        var results;
+
+        JM.Helpers.each(collection, function(e) {
+          results = e;
+        });
+
+        results.should.equal(false);
+      });
     end
   end
 end
