@@ -63,11 +63,10 @@ describe "JM"
       builder.toHTML().should.equal("<ul foo='bar'></ul>");
     end
 
-    // pending:
-    // it "should handle self-closing tags"
-    //   var result = JM.Builder.img({src: "/images/foo.jpg"});
-    //   result.should.equal("<img src='/images/foo.jpg' />");
-    // end
+    it "should handle self-closing tags"
+      var result = builder.img({src: "/images/foo.jpg"});
+      result.should.equal("<img src='/images/foo.jpg' />");
+    end
   end
 
   describe "render"
