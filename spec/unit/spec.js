@@ -111,4 +111,34 @@ describe "JM"
       JM.version.should.equal("0.0.1")
     end
   end
+
+  describe "Helpers"
+    describe "each"
+      it("should yield the element when the function takes only one element", function() {
+        var collection = [1];
+        var results;
+
+        JM.Helpers.each(collection, function(e) {
+          results = e;
+        });
+
+        results.should.equal(1);
+      });
+
+      it("should yield the key and value when the function takes two elements", function() {
+        var collection = [1];
+
+        var key_received;
+        var value_received;
+
+        JM.Helpers.each(collection, function(key, value) {
+          key_received   = key;
+          value_received = value;
+        });
+
+        key_received.should.equal("0");
+        value_received.should.equal(1);
+      });
+    end
+  end
 end
