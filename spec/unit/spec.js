@@ -12,7 +12,7 @@ describe "JM"
       (JM.Builder() instanceof JM.Builder).should.equal(true);
     end
 
-    it 'should self-close a tag'
+    it 'should close a tag'
       builder.ul().should.equal("<ul></ul>");
     end
 
@@ -28,7 +28,7 @@ describe "JM"
       builder.ul({foo: "bar", baz: "quxx"}).should.equal("<ul foo='bar' baz='quxx'></ul>");
     end
 
-    it "should self-close a li"
+    it "should close a li"
       builder.li().should.equal("<li></li>");
     end
 
