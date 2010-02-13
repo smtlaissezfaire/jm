@@ -72,6 +72,14 @@ describe "JM"
       var result = builder.img({src: "/images/foo.jpg"});
       result.should.equal("<img src='/images/foo.jpg' />");
     end
+
+    it "should capture with the text helper"
+      var result = builder.p({}, function() {
+        builder.text("foo");
+      });
+
+      result.should.equal("<p>foo</p>");
+    end
   end
 
   describe "render"

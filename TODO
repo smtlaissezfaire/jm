@@ -1,7 +1,3 @@
-- support capturing of a pure string:
-  p({}, function() {
-    "hi"
-  })
 - indentation
 - compilation of templates
 - support all html4, xhtml strict/compliant tags
