@@ -1,13 +1,30 @@
 
-# YourLib
+# JM = Javascript Markup
 
-Description
+JM = Javascript Markup.  It's Markaby for Javascript.
 
-## License 
+## Example:
+
+  JM.Builder.render({name: 'smtlaissezfaire'}, function() {
+    ul({id: 'foo'}, function() {
+      li({}, function() {
+        text name
+      });
+    });
+  });
+
+Renders:
+
+  <ul id="foo">
+    <li>smtlaissezfaire</li>
+  </ul>
+
+
+## License
 
 (The MIT License)
 
-Copyright (c) 2009 Your Name &lt;Your Email&gt;
+Copyright (c) 2009 Scott Taylor &lt;scott@railsnewbie.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
