@@ -80,6 +80,46 @@ describe "JM"
 
       result.should.equal("<p>foo</p>");
     end
+
+    describe "indentation"
+      it "should be off by default"
+        builder.indentation.should.be(false);
+      end
+
+      it "should indent when on"
+        builder.indentation = true;
+
+        builder.ul({}, function() {
+          builder.li();
+        });
+
+        var expected_string = "";
+        expected_string += "<ul>\n";
+        expected_string += "  <li></li>\n";
+        expected_string += "</ul>";
+
+        builder.toHTML().should.equal(expected_string);
+      end
+
+      it "should indent multiple levels"
+        builder.indentation = true
+
+        builder.ul({}, function() {
+          builder.li({}, function() {
+            builder.p();
+          });
+        });
+
+        var expected_string = "";
+        expected_string += "<ul>\n";
+        expected_string += "  <li>\n";
+        expected_string += "    <p></p>\n";
+        expected_string += "  </li>\n";
+        expected_string += "</ul>";
+
+        builder.toHTML().should.equal(expected_string);
+      end
+    end
   end
 
   describe "render"
