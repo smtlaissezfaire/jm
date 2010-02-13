@@ -16,6 +16,11 @@ describe "JM"
       builder.ul().should.equal("<ul></ul>");
     end
 
+    it 'should add the tag contents to the buffer'
+      builder.ul();
+      builder.buffer.should.equal("<ul></ul>");
+    end
+
     it "should use an argument given"
       builder.ul({foo: "bar"}).should.equal("<ul foo='bar'></ul>")
     end
@@ -33,27 +38,27 @@ describe "JM"
     end
 
     it "should be able to nest"
-      var result = builder.ul({"foo": "bar"}, [
-        builder.li()
-      ]);
+      var result = builder.ul({"foo": "bar"}, function() {
+        builder.li();
+      });
 
       result.should.equal("<ul foo='bar'><li></li></ul>");
     end
 
     it "should be able to nest multiple elements"
-      var result = builder.ul({"foo": "bar"}, [
-        builder.li(),
-        builder.li()
-      ]);
+      var result = builder.ul({"foo": "bar"}, function() {
+        builder.li();
+        builder.li();
+      });
 
       result.should.equal("<ul foo='bar'><li></li><li></li></ul>");
     end
 
     it "should be able to nest multiple elements when they are different"
-      var result = builder.ul({"foo": "bar"}, [
-        builder.li({foo: "bar"}),
-        builder.li()
-      ]);
+      var result = builder.ul({"foo": "bar"}, function() {
+        builder.li({foo: "bar"});
+        builder.li();
+      });
 
       result.should.equal("<ul foo='bar'><li foo='bar'></li><li></li></ul>");
     end
@@ -80,9 +85,9 @@ describe "JM"
 
     it "should be able to nest"
       var result = JM.render({}, function() {
-        ul({}, [
+        ul({}, function() {
           li()
-        ])
+        })
       });
 
       result.should.equal("<ul><li></li></ul>");
