@@ -1,5 +1,4 @@
 - compilation of templates
-- support all html4, xhtml strict/compliant tags
 - "pretty" syntax: (remove javascript cruft)
 
   ul foo:'bar' {
