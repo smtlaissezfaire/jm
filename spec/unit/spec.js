@@ -119,6 +119,22 @@ describe "JM"
 
         builder.toHTML().should.equal(expected_string);
       end
+
+      it "should be able to indent an arbitrary amount of spaces"
+        builder.indentation = true;
+        builder.indentation_spaces = 4;
+
+        builder.ul({}, function() {
+          builder.li();
+        });
+
+        var expected_string = "";
+        expected_string += "<ul>\n";
+        expected_string += "    <li></li>\n";
+        expected_string += "</ul>";
+
+        builder.toHTML().should.equal(expected_string);
+      end
     end
   end
 
