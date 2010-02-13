@@ -230,27 +230,59 @@ describe "JM"
       end
 
       it "should find an empty array of tokens with an empty string"
-        compare_arrays(JM.Clean.tokenize(""), []);
+        // compare_arrays(JM.Clean.tokenize(""), []);
       end
 
       it "should find one char as a token"
-        compare_arrays(JM.Clean.tokenize("u"), ["u"]);
+        compare_arrays(JM.Clean.tokenize("u"), [
+          ['id', "u"]
+        ]);
       end
 
       it "should find two different words as two tokens"
-        compare_arrays(JM.Clean.tokenize("foo bar"), ["foo", "bar"]);
+        compare_arrays(JM.Clean.tokenize("foo bar"), [
+          ['id', 'foo'],
+          ["id", "bar"]
+        ]);
       end
 
       it "should disregard any whitespace at the start"
-        compare_arrays(JM.Clean.tokenize("      foo"), ["foo"]);
+        compare_arrays(JM.Clean.tokenize("      foo"), [
+          ["id", "foo"]
+        ]);
       end
 
       it "should disregard any whitespace at the start & end"
-        compare_arrays(JM.Clean.tokenize("      foo         bar"), ["foo", "bar"]);
+        compare_arrays(JM.Clean.tokenize("      foo         bar"), [
+          ["id", "foo"],
+          ["id", "bar"]
+        ]);
       end
 
       it "should disregard newlines (of all sorts) + other whitespace"
-        compare_arrays(JM.Clean.tokenize("ul {\n\r   \t}"), ["ul", "{", "}"]);
+        compare_arrays(JM.Clean.tokenize("ul foo\n\r   \tbar"), [
+          ["id", "ul"],
+          ["id", "foo"],
+          ["id", "bar"]
+        ]);
+      end
+
+      it "should identify an open brace"
+        compare_arrays(JM.Clean.tokenize("{"), [
+          ["open_brace", "{"]
+        ]);
+      end
+
+      it "should identify an close brace"
+        compare_arrays(JM.Clean.tokenize("}"), [
+          ["close_brace", "}"]
+        ]);
+      end
+
+      it "should identify a colon"
+        compare_arrays(JM.Clean.tokenize(":"), [
+          ["colon", ":"]
+        ]);
       end
     end
   end
