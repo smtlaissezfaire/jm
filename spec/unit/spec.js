@@ -367,30 +367,13 @@ describe "JM"
       end
 
       describe "when matching"
-        it "should return status = true"
+        it "should increment the token pointer"
+          parser.token_index.should.equal(0);
+
           parser.parser_tokens = [["ID", "foo"]];
-          parser.parseToken("ID").status.should.equal(true);
-        end
+          parser.parseToken("ID");
 
-        it "should return the offset before the parse"
-          parser.parser_tokens = [["ID", "foo"]];
-          parser.parseToken("ID").preOffset.should.equal(0);
-        end
-
-        it "should return the correct preOffset"
-          parser.parser_tokens = [
-            ["ID", "foo"],
-            ["ID", "foo"]
-          ];
-
-          parser.incrementToken();
-
-          parser.parseToken("ID").preOffset.should.equal(1);
-        end
-
-        it "should return the post offset as +1"
-          parser.parser_tokens = [["ID", "foo"]];
-          parser.parseToken("ID").postOffset.should.equal(1);
+          parser.token_index.should.equal(1);
         end
       end
     end
