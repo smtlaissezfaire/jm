@@ -377,5 +377,94 @@ describe "JM"
         end
       end
     end
+
+    describe "parsing a function"
+      it "should run the function"
+        var run = false;
+
+        var fun = function() {
+          run = true;
+        }
+
+        parser.parseFunction(fun);
+        run.should.equal(true);
+      end
+
+      it "should increment when expecting a token"
+        parser.parser_tokens = [["INT", 1]];
+
+        var fun = function() {
+          parser.expect("INT");
+        };
+
+        parser.parseFunction(fun);
+        parser.token_index.should.equal(1);
+      end
+
+      it "should increment when expecting two tokens"
+        parser.parser_tokens = [["INT", 1], ["INT", 1]];
+
+        var fun = function() {
+          parser.expect("INT");
+          parser.expect("INT");
+        };
+
+        parser.parseFunction(fun);
+        parser.token_index.should.equal(2);
+      end
+
+      it "should fail, raising an error when not expecting the correct token"
+        parser.parser_tokens = [["INT", 1]];
+
+        var fun = function() {
+          parser.expect("ID");
+        };
+
+        try {
+          parser.parseFunction(fun);
+        } catch (e) {
+          e.should.not.be(undefined);
+        }
+      end
+
+      it "should fail, rewinding the stack"
+        parser.parser_tokens = [["INT", 1], ["INT", 2]];
+
+        var fun = function() {
+          parser.expect("INT");
+          parser.expect("ID");
+        };
+
+        try {
+          parser.parseFunction(fun);
+        } catch (e) { }
+
+        parser.token_index.should.equal(0);
+      end
+    end
+
+    describe "matching a token"
+      it "should increment when expecting a token"
+        parser.parser_tokens = [["INT", 1]];
+
+        var fun = function() {
+          parser.match("INT");
+        };
+
+        parser.match(fun);
+        parser.token_index.should.equal(1);
+      end
+
+      it "should parse a token"
+        parser.parser_tokens = [["INT", 1]];
+
+        parser.match("INT");
+        parser.token_index.should.equal(1);
+      end
+
+      it "should have expect as an alias of match"
+        parser.expect.should.equal(parser.match);
+      end
+    end
   end
 end
