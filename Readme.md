@@ -5,19 +5,19 @@ JM = Javascript Markup.  It's Markaby for Javascript.
 
 ## Example:
 
-  JM.Builder.render({name: 'smtlaissezfaire'}, function() {
-    ul({id: 'foo'}, function() {
-      li({}, function() {
-        text name
+    JM.Builder.render({name: 'smtlaissezfaire'}, function() {
+      ul({id: 'foo'}, function() {
+        li({}, function() {
+          text name
+        });
       });
     });
-  });
 
 Renders:
 
-  <ul id="foo">
-    <li>smtlaissezfaire</li>
-  </ul>
+    <ul id="foo">
+      <li>smtlaissezfaire</li>
+    </ul>
 
 
 ## License
