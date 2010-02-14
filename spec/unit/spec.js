@@ -1,92 +1,92 @@
-describe "JM"
-  describe "Builder"
-    before_each
+describe("JM", function() {
+  describe("Builder", function() {
+    before_each(function() {
       builder = new JM.Builder;
-    end
+    });
 
-    it "should be a builder"
+    it("should be a builder", function() {
       (builder instanceof JM.Builder).should.equal(true);
-    end
+    });
 
-    it "should be a builder even if missing the new"
+    it("should be a builder even if missing the new", function() {
       (JM.Builder() instanceof JM.Builder).should.equal(true);
-    end
+    });
 
-    it 'should close a tag'
+    it('should close a tag', function() {
       builder.ul().should.equal("<ul></ul>");
-    end
+    });
 
-    it 'should add the tag contents to the buffer'
+    it('should add the tag contents to the buffer', function() {
       builder.ul();
       builder.buffer.should.equal("<ul></ul>");
-    end
+    });
 
-    it "should use an argument given"
-      builder.ul({foo: "bar"}).should.equal("<ul foo='bar'></ul>")
-    end
+    it("should use an argument given", function() {
+      builder.ul({foo: "bar"}).should.equal("<ul foo='bar'></ul>");
+    });
 
-    it "should use the correct argument"
-      builder.ul({bar: "quxx"}).should.equal("<ul bar='quxx'></ul>")
-    end
+    it("should use the correct argument", function() {
+      builder.ul({bar: "quxx"}).should.equal("<ul bar='quxx'></ul>");
+    });
 
-    it "should use multiple arguments"
+    it("should use multiple arguments", function() {
       builder.ul({foo: "bar", baz: "quxx"}).should.equal("<ul foo='bar' baz='quxx'></ul>");
-    end
+    });
 
-    it "should close a li"
+    it("should close a li", function() {
       builder.li().should.equal("<li></li>");
-    end
+    });
 
-    it "should be able to nest"
+    it("should be able to nest", function() {
       var result = builder.ul({"foo": "bar"}, function() {
         builder.li();
       });
 
       result.should.equal("<ul foo='bar'><li></li></ul>");
-    end
+    });
 
-    it "should be able to nest multiple elements"
+    it("should be able to nest multiple elements", function() {
       var result = builder.ul({"foo": "bar"}, function() {
         builder.li();
         builder.li();
       });
 
       result.should.equal("<ul foo='bar'><li></li><li></li></ul>");
-    end
+    });
 
-    it "should be able to nest multiple elements when they are different"
+    it("should be able to nest multiple elements when they are different", function() {
       var result = builder.ul({"foo": "bar"}, function() {
         builder.li({foo: "bar"});
         builder.li();
       });
 
       result.should.equal("<ul foo='bar'><li foo='bar'></li><li></li></ul>");
-    end
+    });
 
-    it "should have return the html string as toHtml"
+    it("should have return the html string as toHtml", function() {
       builder.ul({"foo": "bar"});
       builder.toHTML().should.equal("<ul foo='bar'></ul>");
-    end
+    });
 
-    it "should handle self-closing tags"
+    it("should handle self-closing tags", function() {
       var result = builder.img({src: "/images/foo.jpg"});
       result.should.equal("<img src='/images/foo.jpg' />");
-    end
+    });
 
-    it "should capture with the text helper"
+    it("should capture with the text helper", function() {
       var result = builder.p({}, function() {
         builder.text("foo");
       });
 
       result.should.equal("<p>foo</p>");
-    end
+    });
 
-    describe "indentation"
-      it "should be off by default"
+    describe("indentation", function() {
+      it("should be off by default", function() {
         builder.indentation.should.be(false);
-      end
+      });
 
-      it "should indent when on"
+      it("should indent when on", function() {
         builder.indentation = true;
 
         builder.ul({}, function() {
@@ -99,10 +99,10 @@ describe "JM"
         expected_string += "</ul>";
 
         builder.toHTML().should.equal(expected_string);
-      end
+      });
 
-      it "should indent multiple levels"
-        builder.indentation = true
+      it("should indent multiple levels", function() {
+        builder.indentation = true;
 
         builder.ul({}, function() {
           builder.li({}, function() {
@@ -118,9 +118,9 @@ describe "JM"
         expected_string += "</ul>";
 
         builder.toHTML().should.equal(expected_string);
-      end
+      });
 
-      it "should be able to indent an arbitrary amount of spaces"
+      it("should be able to indent an arbitrary amount of spaces", function() {
         builder.indentation = true;
         builder.indentation_spaces = 4;
 
@@ -134,54 +134,54 @@ describe "JM"
         expected_string += "</ul>";
 
         builder.toHTML().should.equal(expected_string);
-      end
-    end
-  end
+      });
+    });
+  });
 
-  describe "render"
-    it "should use a pretty syntax"
+  describe("render", function() {
+    it("should use a pretty syntax", function() {
       var result = JM.render({}, function() {
-        ul()
+        ul();
       });
 
       result.should.equal("<ul></ul>");
-    end
+    });
 
-    it "should be able to nest"
+    it("should be able to nest", function() {
       var result = JM.render({}, function() {
         ul({}, function() {
-          li()
-        })
+          li();
+        });
       });
 
       result.should.equal("<ul><li></li></ul>");
-    end
+    });
 
-    it "should take code as a string"
+    it("should take code as a string", function() {
       var result = JM.render({}, "ul();");
       result.should.equal("<ul></ul>");
-    end
+    });
 
-    it "should allow local variables in locals"
+    it("should allow local variables in locals", function() {
       var result = JM.render({foo: "bar"}, function() {
         ul({id: foo});
       });
 
       result.should.equal("<ul id='bar'></ul>");
-    end
-  end
+    });
+  });
 
-  describe "version"
-    it "should be at 0.0.1"
-      JM.major.should.equal(0)
-      JM.minor.should.equal(0)
-      JM.tiny.should.equal(1)
-      JM.version.should.equal("0.0.1")
-    end
-  end
+  describe("version", function() {
+    it("should be at 0.0.1", function() {
+      JM.major.should.equal(0);
+      JM.minor.should.equal(0);
+      JM.tiny.should.equal(1);
+      JM.version.should.equal("0.0.1");
+    });
+  });
 
-  describe "Helpers"
-    describe "forEach"
+  describe("Helpers", function() {
+    describe("forEach", function() {
       it("should yield the element when the function takes only one element", function() {
         var collection = [1];
         var results;
@@ -218,101 +218,101 @@ describe "JM"
 
         results.should.equal(false);
       });
-    end
-  end
+    });
+  });
 
-  describe "parser"
-    describe "tokenizing"
-      before_each
+  describe("parser", function() {
+    describe("tokenizing", function() {
+      before_each(function() {
         compare_arrays = function(array1, array2) {
           array1.toString().should.equal(array2.toString());
-        }
-      end
+        };
+      });
 
-      it "should find an empty array of tokens with an empty string"
+      it("should find an empty array of tokens with an empty string", function() {
         // compare_arrays(JM.Clean.tokenize(""), []);
-      end
+      });
 
-      it "should find one char as a token"
+      it("should find one char as a token", function() {
         compare_arrays(JM.Clean.tokenize("u"), [
           ['id', "u"]
         ]);
-      end
+      });
 
-      it "should find two different words as two tokens"
+      it("should find two different words as two tokens", function() {
         compare_arrays(JM.Clean.tokenize("foo bar"), [
           ['id', 'foo'],
           ["id", "bar"]
         ]);
-      end
+      });
 
-      it "should disregard any whitespace at the start"
+      it("should disregard any whitespace at the start", function() {
         compare_arrays(JM.Clean.tokenize("      foo"), [
           ["id", "foo"]
         ]);
-      end
+      });
 
-      it "should disregard any whitespace at the start & end"
+      it("should disregard any whitespace at the start & });", function() {
         compare_arrays(JM.Clean.tokenize("      foo         bar"), [
           ["id", "foo"],
           ["id", "bar"]
         ]);
-      end
+      });
 
-      it "should disregard newlines (of all sorts) + other whitespace"
+      it("should disregard newlines (of all sorts) + other whitespace", function() {
         compare_arrays(JM.Clean.tokenize("ul foo\n\r   \tbar"), [
           ["id", "ul"],
           ["id", "foo"],
           ["id", "bar"]
         ]);
-      end
+      });
 
-      it "should identify an open brace"
+      it("should identify an open brace", function() {
         compare_arrays(JM.Clean.tokenize("{"), [
           ["open_brace", "{"]
         ]);
-      end
+      });
 
-      it "should identify an close brace"
+      it("should identify an close brace", function() {
         compare_arrays(JM.Clean.tokenize("}"), [
           ["close_brace", "}"]
         ]);
-      end
+      });
 
-      it "should identify a colon"
+      it("should identify a colon", function() {
         compare_arrays(JM.Clean.tokenize(":"), [
           ["colon", ":"]
         ]);
-      end
-    end
-  end
+      });
+    });
+  });
 
-  describe "GenericParser"
-    before_each
+  describe("GenericParser", function() {
+    before_each(function() {
       parser = JM.Helpers.clone(JM.GenericParser);
-    end
+    });
 
-    it "should have the token index at 0"
+    it("should have the token index at 0", function() {
       parser.token_index.should.equal(0);
-    end
+    });
 
-    it "should have the parser tokens as an empty list by default"
+    it("should have the parser tokens as an empty list by default", function() {
       parser.parser_tokens.toString().should.equal([].toString());
-    end
+    });
 
-    it "should report on the next token type"
+    it("should report on the next token type", function() {
       parser.parser_tokens = [["ID", "foo"]];
 
       parser.token_index.should.equal(0);
       parser.nextTokenType().should.equal("ID");
-    end
+    });
 
-    it "should report the correct next token type"
+    it("should report the correct next token type", function() {
       parser.parser_tokens = [["INTEGER", 1]];
       parser.nextTokenType().should.equal("INTEGER");
-    end
+    });
 
-    it "should report the correct next token type after the token type has been incremented"
+    it("should report the correct next token type after the token type has been incremented", function() {
       parser.parser_tokens = [
         ["ID", "foo"],
         ["OPEN_PAREN", "("]
@@ -321,11 +321,11 @@ describe "JM"
       parser.incrementToken();
 
       parser.nextTokenType().should.equal("OPEN_PAREN");
-    end
+    });
 
-    describe "parsing a token"
-      describe "when failing"
-        it "should raise an error"
+    describe("parsing a token", function() {
+      describe("when failing", function() {
+        it("should raise an error", function() {
           parser.parser_tokens = [["INT", 1]];
 
           try {
@@ -333,9 +333,9 @@ describe "JM"
           } catch (e) {
             e.should.not.equal(undefined);
           }
-        end
+        });
 
-        it "should return the old post offset"
+        it("should return the old post offset", function() {
           parser.parser_tokens = [["INT", 1]];
 
           try {
@@ -343,9 +343,9 @@ describe "JM"
           } catch (e) {
             e.postOffset.should.equal(0);
           }
-        end
+        });
 
-        it "should return the old pre offset"
+        it("should return the old pre offset", function() {
           parser.parser_tokens = [["INT", 1]];
 
           try {
@@ -353,9 +353,9 @@ describe "JM"
           } catch (e) {
             e.preOffset.should.equal(0);
           }
-        end
+        });
 
-        it "should return the status = false"
+        it("should return the status = false", function() {
           parser.parser_tokens = [["INT", 1]];
 
           try {
@@ -363,34 +363,34 @@ describe "JM"
           } catch (e) {
             e.status.should.equal(false);
           }
-        end
-      end
+        });
+      });
 
-      describe "when matching"
-        it "should increment the token pointer"
+      describe("when matching", function() {
+        it("should increment the token pointer", function() {
           parser.token_index.should.equal(0);
 
           parser.parser_tokens = [["ID", "foo"]];
           parser.parseToken("ID");
 
           parser.token_index.should.equal(1);
-        end
-      end
-    end
+        });
+      });
+    });
 
-    describe "parsing a function"
-      it "should run the function"
+    describe("parsing a function", function() {
+      it("should run the function", function() {
         var run = false;
 
         var fun = function() {
           run = true;
-        }
+        };
 
         parser.parseFunction(fun);
         run.should.equal(true);
-      end
+      });
 
-      it "should increment when expecting a token"
+      it("should increment when expecting a token", function() {
         parser.parser_tokens = [["INT", 1]];
 
         var fun = function() {
@@ -399,9 +399,9 @@ describe "JM"
 
         parser.parseFunction(fun);
         parser.token_index.should.equal(1);
-      end
+      });
 
-      it "should increment when expecting two tokens"
+      it("should increment when expecting two tokens", function() {
         parser.parser_tokens = [["INT", 1], ["INT", 1]];
 
         var fun = function() {
@@ -411,9 +411,9 @@ describe "JM"
 
         parser.parseFunction(fun);
         parser.token_index.should.equal(2);
-      end
+      });
 
-      it "should fail, raising an error when not expecting the correct token"
+      it("should fail, raising an error when not expecting the correct token", function() {
         parser.parser_tokens = [["INT", 1]];
 
         var fun = function() {
@@ -425,9 +425,9 @@ describe "JM"
         } catch (e) {
           e.should.not.be(undefined);
         }
-      end
+      });
 
-      it "should fail, rewinding the stack"
+      it("should fail, rewinding the stack", function() {
         parser.parser_tokens = [["INT", 1], ["INT", 2]];
 
         var fun = function() {
@@ -440,11 +440,11 @@ describe "JM"
         } catch (e) { }
 
         parser.token_index.should.equal(0);
-      end
-    end
+      });
+    });
 
-    describe "matching a token"
-      it "should increment when expecting a token"
+    describe("matching a token", function() {
+      it("should increment when expecting a token", function() {
         parser.parser_tokens = [["INT", 1]];
 
         var fun = function() {
@@ -453,18 +453,18 @@ describe "JM"
 
         parser.match(fun);
         parser.token_index.should.equal(1);
-      end
+      });
 
-      it "should parse a token"
+      it("should parse a token", function() {
         parser.parser_tokens = [["INT", 1]];
 
         parser.match("INT");
         parser.token_index.should.equal(1);
-      end
+      });
 
-      it "should have expect as an alias of match"
+      it("should have expect as an alias of match", function() {
         parser.expect.should.equal(parser.match);
-      end
-    end
-  end
-end
+      });
+    });
+  });
+});
