@@ -286,4 +286,113 @@ describe "JM"
       end
     end
   end
+
+  describe "GenericParser"
+    before_each
+      parser = JM.Helpers.clone(JM.GenericParser);
+    end
+
+    it "should have the token index at 0"
+      parser.token_index.should.equal(0);
+    end
+
+    it "should have the parser tokens as an empty list by default"
+      parser.parser_tokens.toString().should.equal([].toString());
+    end
+
+    it "should report on the next token type"
+      parser.parser_tokens = [["ID", "foo"]];
+
+      parser.token_index.should.equal(0);
+      parser.nextTokenType().should.equal("ID");
+    end
+
+    it "should report the correct next token type"
+      parser.parser_tokens = [["INTEGER", 1]];
+      parser.nextTokenType().should.equal("INTEGER");
+    end
+
+    it "should report the correct next token type after the token type has been incremented"
+      parser.parser_tokens = [
+        ["ID", "foo"],
+        ["OPEN_PAREN", "("]
+      ];
+
+      parser.incrementToken();
+
+      parser.nextTokenType().should.equal("OPEN_PAREN");
+    end
+
+    describe "parsing a token"
+      describe "when failing"
+        it "should raise an error"
+          parser.parser_tokens = [["INT", 1]];
+
+          try {
+            parser.parseToken("ID");
+          } catch (e) {
+            e.should.not.equal(undefined);
+          }
+        end
+
+        it "should return the old post offset"
+          parser.parser_tokens = [["INT", 1]];
+
+          try {
+            parser.parseToken("ID");
+          } catch (e) {
+            e.postOffset.should.equal(0);
+          }
+        end
+
+        it "should return the old pre offset"
+          parser.parser_tokens = [["INT", 1]];
+
+          try {
+            parser.parseToken("ID");
+          } catch (e) {
+            e.preOffset.should.equal(0);
+          }
+        end
+
+        it "should return the status = false"
+          parser.parser_tokens = [["INT", 1]];
+
+          try {
+            parser.parseToken("ID");
+          } catch (e) {
+            e.status.should.equal(false);
+          }
+        end
+      end
+
+      describe "when matching"
+        it "should return status = true"
+          parser.parser_tokens = [["ID", "foo"]];
+          parser.parseToken("ID").status.should.equal(true);
+        end
+
+        it "should return the offset before the parse"
+          parser.parser_tokens = [["ID", "foo"]];
+          parser.parseToken("ID").preOffset.should.equal(0);
+        end
+
+        it "should return the correct preOffset"
+          parser.parser_tokens = [
+            ["ID", "foo"],
+            ["ID", "foo"]
+          ];
+
+          parser.incrementToken();
+
+          parser.parseToken("ID").preOffset.should.equal(1);
+        end
+
+        it "should return the post offset as +1"
+          parser.parser_tokens = [["ID", "foo"]];
+          parser.parseToken("ID").postOffset.should.equal(1);
+        end
+      end
+    end
+  end
 end
