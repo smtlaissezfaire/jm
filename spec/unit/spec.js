@@ -375,6 +375,11 @@ describe("JM", function() {
 
           parser.token_index.should.equal(1);
         });
+
+        it("should return the token", function() {
+          parser.parser_tokens = [["ID", "foo"]];
+          parser.parseToken("ID").should.equal("foo");
+        });
       });
     });
 
@@ -411,6 +416,17 @@ describe("JM", function() {
 
         parser.parseFunction(fun);
         parser.token_index.should.equal(2);
+      });
+
+      it("should return the accepted tokens", function() {
+        parser.parser_tokens = [["INT", 1], ["INT", 2]];
+
+        var fun = function() {
+          parser.expect("INT");
+          parser.expect("INT");
+        };
+
+        parser.parseFunction(fun).toString().should.equal([1,2].toString());
       });
 
       it("should fail, raising an error when not expecting the correct token", function() {
