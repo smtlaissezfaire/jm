@@ -1,3 +1,6 @@
 [submodule "spec/vendor/jspec"]
 	path = spec/vendor/jspec
 	url = http://github.com/visionmedia/jspec.git
+[submodule "spec/vendor/jspec_dot_reporter"]
+	path = spec/vendor/jspec_dot_reporter
+	url = git@github.com:smtlaissezfaire/jspec_dot_reporter.git
