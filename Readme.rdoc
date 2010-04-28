@@ -1,23 +1,25 @@
 
-# JM === "Javascript Markup"
+= JM === "Javascript Markup"
 
 JM is Javascript Markup.  It's a Markaby/Builder for Javascript.
 
-## Examples:
+== Using
 
-self-closing tags:
+=== Examples:
+
+==== self-closing tags:
 
   JM.render(function() { img(); });
   => <img />
 
-tags with attributes:
+==== tags with attributes:
 
   JM.render(function() {
     div({id: 'bar'});
   });
   // => <div id='bar'></div>
 
-Nested tags:
+==== Nested tags:
 
   JM.render(function() {
     ul(function() {
@@ -42,7 +44,7 @@ JM.render can also take an object/hash of locals:
   });
   // => "scott"
 
-## Partials:
+=== Partials:
 
 Since templates are just functions, partials can be passed in as locals:
 
@@ -71,7 +73,7 @@ The JM library provides a more idiomatic way, which involves registering the par
   });
 
 
-## Bugs:
+== Bugs:
 
 * Variables that appear in local scope aren't.  They must either be
 registered as templates, or passed in as locals:
@@ -88,7 +90,7 @@ registered as templates, or passed in as locals:
 * It suffers from the same performance constraints that markaby does, namely, that
 it doesn't compile the templates.  How real this performance bottle neck is, is TBD.
 
-## License
+== License
 
 (The MIT License)
 
