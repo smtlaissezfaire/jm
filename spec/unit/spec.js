@@ -45,6 +45,14 @@ describe("JM", function() {
       result.should.equal("<ul foo='bar'><li></li></ul>");
     });
 
+    it("should be able to nest with just a function argument", function() {
+      var result = builder.ul(function() {
+        builder.li();
+      });
+
+      result.should.equal("<ul><li></li></ul>");
+    });
+
     it("should be able to nest multiple elements", function() {
       var result = builder.ul({"foo": "bar"}, function() {
         builder.li();
