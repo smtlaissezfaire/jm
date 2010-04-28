@@ -7,19 +7,19 @@ JM is Javascript Markup.  It's a Markaby/Builder for Javascript.
 
 === Examples:
 
-==== self-closing tags:
+Self-closing tags:
 
   JM.render(function() { img(); });
   => <img />
 
-==== tags with attributes:
+Tags with attributes:
 
   JM.render(function() {
     div({id: 'bar'});
   });
   // => <div id='bar'></div>
 
-==== Nested tags:
+Nested tags:
 
   JM.render(function() {
     ul(function() {
@@ -75,8 +75,7 @@ The JM library provides a more idiomatic way, which involves registering the par
 
 == Bugs:
 
-* Variables that appear in local scope aren't.  They must either be
-registered as templates, or passed in as locals:
+* Variables that appear in local scope aren't.  They must either be registered as templates, or passed in as locals:
 
     var x = 10;
 
@@ -87,8 +86,7 @@ registered as templates, or passed in as locals:
     // => ERROR
 
 * At the present time, JM doesn't perform w3c validation, as markaby can (optionally).
-* It suffers from the same performance constraints that markaby does, namely, that
-it doesn't compile the templates.  How real this performance bottle neck is, is TBD.
+* It suffers from the same performance constraints that markaby does, namely, that it doesn't compile the templates.  How real this performance bottle neck is still TBD.
 
 == License
 
