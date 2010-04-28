@@ -169,6 +169,23 @@ describe("JM", function() {
 
       result.should.equal("<ul id='bar'></ul>");
     });
+
+    it("should use a one arg function as an empty list of params", function() {
+      var result = JM.render(function() {
+        ul({id: 'foo'});
+      });
+
+      result.should.equal("<ul id='foo'></ul>");
+    });
+
+    it("should raise an error if given one argument, but it's not a function", function() {
+      try {
+        JM.render({});
+        throw("got here");
+      } catch (e) {
+        e.message.should.equal("Incorrect arguments given to render.");
+      }
+    });
   });
 
   describe("version", function() {
