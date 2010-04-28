@@ -222,6 +222,37 @@ describe("JM", function() {
 
       result.should.equal("<p></p>");
     });
+
+    it("should provide a convenient render syntax for a partial template", function() {
+      JM.register("a_partial", function() {
+        p();
+      });
+
+      var result = JM.render({}, function() {
+        render("a_partial");
+      });
+
+      result.should.equal("<p></p>");
+    });
+
+    it('should be able to pass locals to the partial', function() {
+      JM.register("a_partial", function() {
+        p(name);
+      });
+
+      var result = JM.render(function() {
+        render("a_partial", {name: "scott"});
+      });
+    });
+  });
+
+  describe("template registering", function() {
+    it("should be able to register a template", function() {
+      var partial = function() {};
+
+      JM.register("a_partial", partial);
+      JM.templates["a_partial"].should.equal(partial);
+    });
   });
 
   describe("version", function() {
