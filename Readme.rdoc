@@ -5,7 +5,11 @@ JM is Javascript Markup.  It's a Markaby/Builder for Javascript.
 
 == Using
 
-=== Examples:
+If using the CommonJS module system, and the module is in your load path, require jm:
+
+  var JM = require("jm");
+
+=== Examples
 
 Self-closing tags:
 
