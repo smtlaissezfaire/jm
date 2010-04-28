@@ -1,30 +1,98 @@
 
-# JM = Javascript Markup
+# JM === "Javascript Markup"
 
-JM = Javascript Markup.  It's Markaby for Javascript.
+JM is Javascript Markup.  It's a Markaby/Builder for Javascript.
 
-## Example:
+## Examples:
 
-    JM.Builder.render({name: 'smtlaissezfaire'}, function() {
-      ul({id: 'foo'}, function() {
-        li({}, function() {
-          text name
-        });
-      });
-    });
+self-closing tags:
 
-Renders:
+  JM.render(function() { img(); });
+  => <img />
 
-    <ul id="foo">
-      <li>smtlaissezfaire</li>
+tags with attributes:
+
+  JM.render(function() {
+    div({id: 'bar'});
+  });
+  // => <div id='bar'></div>
+
+Nested tags:
+
+  JM.render(function() {
+    ul(function() {
+      li(function() {
+        text("hello")
+      })
+    })
+  })
+
+  // =>
+    <ul>
+      <li>hello</li>
     </ul>
 
+Notice that the "text" method is a way to output raw text into the buffer.
+It's an "escape hatch" of sorts.
+
+JM.render can also take an object/hash of locals:
+
+  JM.render({user_name: 'scott'}, function() {
+    text(user_name);
+  });
+  // => "scott"
+
+## Partials:
+
+Since templates are just functions, partials can be passed in as locals:
+
+  var my_partial = function() {
+    li(function() {
+      text(name)
+    });
+  };
+
+  JM.render({partial: my_partial}, function() {
+    my_partial("scott");
+  });
+
+  # => "<li>scott</li>"
+
+The JM library provides a more idiomatic way, which involves registering the partial template:
+
+  JM.register("my_partial", function() {
+    li(function() {
+      text(name)
+    });
+  });
+
+  JM.render(function() {
+    render("my_partial", {name: 'scott'})
+  });
+
+
+## Bugs:
+
+* Variables that appear in local scope aren't.  They must either be
+registered as templates, or passed in as locals:
+
+    var x = 10;
+
+    JM.render(function() {
+      text(x);
+    });
+
+    // => ERROR
+
+* At the present time, JM doesn't perform w3c validation, as markaby can (optionally).
+* It suffers from the same performance constraints that markaby does, namely, that
+it doesn't compile the templates.  How real this performance bottle neck is, is TBD.
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2009 Scott Taylor &lt;scott@railsnewbie.com&gt;
+Copyright (c) 2009-2010 Scott Taylor &lt;scott@railsnewbie.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
