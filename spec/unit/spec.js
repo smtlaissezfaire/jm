@@ -237,12 +237,14 @@ describe("JM", function() {
 
     it('should be able to pass locals to the partial', function() {
       JM.register("a_partial", function() {
-        p(name);
+        text(name);
       });
 
       var result = JM.render(function() {
         render("a_partial", {name: "scott"});
       });
+
+      result.should.equal("scott");
     });
   });
 
