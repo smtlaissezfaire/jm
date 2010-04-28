@@ -194,6 +194,14 @@ describe("JM", function() {
       result.should.equal("<ul id='foo'></ul>");
     });
 
+    it("should be able to create a paragraph tag", function() {
+      var result = JM.render(function() {
+        p();
+      });
+
+      result.should.equal("<p></p>");
+    });
+
     it("should raise an error if given one argument, but it's not a function", function() {
       try {
         JM.render({});
@@ -201,6 +209,18 @@ describe("JM", function() {
       } catch (e) {
         e.message.should.equal("Incorrect arguments given to render.");
       }
+    });
+
+    it("should be able to access variables given in the current scope through params", function() {
+      var partial = function() {
+        p();
+      };
+
+      var result = JM.render({partial: partial}, function() {
+        text(JM.render(partial));
+      });
+
+      result.should.equal("<p></p>");
     });
   });
 
