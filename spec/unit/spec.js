@@ -170,6 +170,14 @@ describe("JM", function() {
       result.should.equal("<ul></ul>");
     });
 
+    it("should prefer local variables to builder functions", function() {
+      var result = JM.render({ul: 'foobar'}, function() {
+        text(ul);
+      });
+
+      result.should.equal("foobar");
+    });
+
     it("should allow local variables in locals", function() {
       var result = JM.render({foo: "bar"}, function() {
         ul({id: foo});
