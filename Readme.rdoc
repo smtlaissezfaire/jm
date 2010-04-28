@@ -90,7 +90,7 @@ The JM library provides a more idiomatic way, which involves registering the par
     // => ERROR
 
 * At the present time, JM doesn't perform w3c validation, as markaby can (optionally).
-* It suffers from the same performance constraints that markaby does, namely, that it doesn't compile the templates.  How real this performance bottle neck is still TBD.
+* It suffers from the same performance constraints that markaby does, namely, that it doesn't compile the templates.  Whether or not this is a real performance bottle neck is still to be determined.
 
 == License
 
