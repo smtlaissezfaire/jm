@@ -89,6 +89,11 @@ describe("JM", function() {
       result.should.equal("<p>foo</p>");
     });
 
+    it("should output raw text if given a string as it's first argument", function() {
+      var result = builder.p("foo");
+      result.should.equal("<p>foo</p>");
+    });
+
     describe("indentation", function() {
       it("should be off by default", function() {
         builder.indentation.should.be(false);
