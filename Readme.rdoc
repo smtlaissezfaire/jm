@@ -41,6 +41,20 @@ Nested tags:
 Notice that the "text" method is a way to output raw text into the buffer.
 It's an "escape hatch" of sorts.
 
+A convenience provided is provided by JM in a situation like the one above:
+
+  li(function() {
+    text("hello");
+  })
+
+  // => <li>hello</li>
+
+can be more easily represented as:
+
+  li("hello");
+
+  // => <li>hello</li>
+
 JM.render can also take an object/hash of locals:
 
   JM.render({user_name: 'scott'}, function() {
