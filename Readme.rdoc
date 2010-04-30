@@ -64,19 +64,17 @@ JM.render can also take an object/hash of locals:
 
 === Partials:
 
-Since templates are just functions, partials can be passed in as locals:
+Since templates are just functions, partials can be passed in as locals and rendered:
 
-  var my_partial = function() {
-    li(function() {
-      text(name)
-    });
+  var partial = function() {
+    p();
   };
 
-  JM.render({partial: my_partial}, function() {
-    my_partial("scott");
+  JM.render({partial: partial}, function() {
+    text(JM.render(partial));
   });
 
-  # => "<li>scott</li>"
+  # => "<p>scott</p>"
 
 The JM library provides a more idiomatic way, which involves registering the partial template:
 
