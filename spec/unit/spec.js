@@ -152,16 +152,8 @@ describe("JM", function() {
   });
 
   describe("render", function() {
-    it("should use a pretty syntax", function() {
-      var result = JM.render({}, function(b) {
-        b.ul();
-      });
-
-      result.should.equal("<ul></ul>");
-    });
-
     it("should be able to nest", function() {
-      var result = JM.render({}, function(b) {
+      var result = JM.render(function(b) {
         b.ul({}, function() {
           b.li();
         });
@@ -171,19 +163,19 @@ describe("JM", function() {
     });
 
     it("should prefer local variables to builder functions", function() {
-      var result = JM.render({ul: 'foobar'}, function(b, args) {
+      var result = JM.render(function(b, args) {
         b.text(args.ul);
-      });
+      }, {ul: 'foobar'});
 
       result.should.equal("foobar");
     });
 
     it("should allow local variables in locals", function() {
-      var result = JM.render({foo: "bar"}, function(b, args) {
-        b.ul({id: args.foo});
-      });
+      var result = JM.render(function(b, args) {
+        b.ul({id: args.ul});
+      }, {ul: 'foobar'});
 
-      result.should.equal("<ul id='bar'></ul>");
+      result.should.equal("<ul id='foobar'></ul>");
     });
 
     it("should use a one arg function as an empty list of params", function() {
@@ -228,7 +220,7 @@ describe("JM", function() {
         b.p();
       });
 
-      var result = JM.render({}, function(b) {
+      var result = JM.render(function(b) {
         b.render("a_partial");
       });
 
