@@ -38,34 +38,34 @@ describe("JM", function() {
     });
 
     it("should be able to nest", function() {
-      var result = builder.ul({"foo": "bar"}, function() {
-        builder.li();
+      var result = builder.ul({"foo": "bar"}, function(b) {
+        b.li();
       });
 
       result.should.equal("<ul foo='bar'><li></li></ul>");
     });
 
     it("should be able to nest with just a function argument", function() {
-      var result = builder.ul(function() {
-        builder.li();
+      var result = builder.ul(function(b) {
+        b.li();
       });
 
       result.should.equal("<ul><li></li></ul>");
     });
 
     it("should be able to nest multiple elements", function() {
-      var result = builder.ul({"foo": "bar"}, function() {
-        builder.li();
-        builder.li();
+      var result = builder.ul({"foo": "bar"}, function(b) {
+        b.li();
+        b.li();
       });
 
       result.should.equal("<ul foo='bar'><li></li><li></li></ul>");
     });
 
     it("should be able to nest multiple elements when they are different", function() {
-      var result = builder.ul({"foo": "bar"}, function() {
-        builder.li({foo: "bar"});
-        builder.li();
+      var result = builder.ul({"foo": "bar"}, function(b) {
+        b.li({foo: "bar"});
+        b.li();
       });
 
       result.should.equal("<ul foo='bar'><li foo='bar'></li><li></li></ul>");
@@ -82,8 +82,8 @@ describe("JM", function() {
     });
 
     it("should capture with the text helper", function() {
-      var result = builder.p({}, function() {
-        builder.text("foo");
+      var result = builder.p({}, function(b) {
+        b.text("foo");
       });
 
       result.should.equal("<p>foo</p>");
@@ -102,8 +102,8 @@ describe("JM", function() {
       it("should indent when on", function() {
         builder.indentation = true;
 
-        builder.ul({}, function() {
-          builder.li();
+        builder.ul({}, function(b) {
+          b.li();
         });
 
         var expected_string = "";
@@ -117,9 +117,9 @@ describe("JM", function() {
       it("should indent multiple levels", function() {
         builder.indentation = true;
 
-        builder.ul({}, function() {
-          builder.li({}, function() {
-            builder.p();
+        builder.ul({}, function(b) {
+          b.li({}, function(b) {
+            b.p();
           });
         });
 
@@ -137,8 +137,8 @@ describe("JM", function() {
         builder.indentation = true;
         builder.indentation_spaces = 4;
 
-        builder.ul({}, function() {
-          builder.li();
+        builder.ul({}, function(b) {
+          b.li();
         });
 
         var expected_string = "";
@@ -153,55 +153,50 @@ describe("JM", function() {
 
   describe("render", function() {
     it("should use a pretty syntax", function() {
-      var result = JM.render({}, function() {
-        ul();
+      var result = JM.render({}, function(b) {
+        b.ul();
       });
 
       result.should.equal("<ul></ul>");
     });
 
     it("should be able to nest", function() {
-      var result = JM.render({}, function() {
-        ul({}, function() {
-          li();
+      var result = JM.render({}, function(b) {
+        b.ul({}, function() {
+          b.li();
         });
       });
 
       result.should.equal("<ul><li></li></ul>");
     });
 
-    it("should take code as a string", function() {
-      var result = JM.render({}, "ul();");
-      result.should.equal("<ul></ul>");
-    });
-
     it("should prefer local variables to builder functions", function() {
-      var result = JM.render({ul: 'foobar'}, function() {
-        text(ul);
+      var result = JM.render({ul: 'foobar'}, function(b, args) {
+        b.text(args.ul);
       });
 
       result.should.equal("foobar");
     });
 
     it("should allow local variables in locals", function() {
-      var result = JM.render({foo: "bar"}, function() {
-        ul({id: foo});
+      var result = JM.render({foo: "bar"}, function(b, args) {
+        b.ul({id: args.foo});
       });
 
       result.should.equal("<ul id='bar'></ul>");
     });
 
     it("should use a one arg function as an empty list of params", function() {
-      var result = JM.render(function() {
-        ul({id: 'foo'});
+      var result = JM.render(function(b) {
+        b.ul({id: 'foo'});
       });
 
       result.should.equal("<ul id='foo'></ul>");
     });
 
     it("should be able to create a paragraph tag", function() {
-      var result = JM.render(function() {
-        p();
+      var result = JM.render(function(b) {
+        b.p();
       });
 
       result.should.equal("<p></p>");
@@ -216,37 +211,37 @@ describe("JM", function() {
       }
     });
 
-    it("should be able to access variables given in the current scope through params", function() {
-      var partial = function() {
-        p();
+    it("should be able to access variables given in the current scope", function() {
+      var partial = function(b) {
+        b.p();
       };
 
-      var result = JM.render({partial: partial}, function() {
-        text(JM.render(partial));
+      var result = JM.render(function(b) {
+        b.text(JM.render(partial));
       });
 
       result.should.equal("<p></p>");
     });
 
     it("should provide a convenient render syntax for a partial template", function() {
-      JM.register("a_partial", function() {
-        p();
+      JM.register("a_partial", function(b) {
+        b.p();
       });
 
-      var result = JM.render({}, function() {
-        render("a_partial");
+      var result = JM.render({}, function(b) {
+        b.render("a_partial");
       });
 
       result.should.equal("<p></p>");
     });
 
     it('should be able to pass locals to the partial', function() {
-      JM.register("a_partial", function() {
-        text(name);
+      JM.register("a_partial", function(b, args) {
+        b.text(args.name);
       });
 
-      var result = JM.render(function() {
-        render("a_partial", {name: "scott"});
+      var result = JM.render(function(b) {
+        b.render("a_partial", {name: "scott"});
       });
 
       result.should.equal("scott");
