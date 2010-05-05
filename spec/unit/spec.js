@@ -250,6 +250,18 @@ describe("JM", function() {
 
       result.should.equal("scott");
     });
+
+    it("should allow builder for scoping", function() {
+      var builder = new JM.Builder();
+
+      with(builder) {
+        ul(function() {
+          li("text");
+        });
+      }
+
+      builder.toHTML().should.equal("<ul><li>text</li></ul>");
+    });
   });
 
   describe("template registering", function() {
