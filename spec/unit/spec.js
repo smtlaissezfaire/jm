@@ -227,6 +227,18 @@ describe("JM", function() {
       result.should.equal("<p></p>");
     });
 
+    it("should be able to render a partial which hasn't been previously registered", function() {
+      var a_partial = function(b) {
+        b.p();
+      };
+
+      var result = JM.render(function(b) {
+        b.render(a_partial);
+      });
+
+      result.should.equal("<p></p>");
+    });
+
     it('should be able to pass locals to the partial', function() {
       JM.register("a_partial", function(b, args) {
         b.text(args.name);
