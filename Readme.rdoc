@@ -1,31 +1,48 @@
 
-= JM === "Javascript Markup"
+= jm === "Javascript Markup"
 
-JM is Javascript Markup.  It's a Markaby/Builder for Javascript.
+jm is Javascript Markup.  It's a Markaby/Builder for Javascript.
 
 == Using
 
-If using the CommonJS module system, and the module is in your load path, require jm:
+require jm:
 
-  var JM = require("jm");
+  var jm = require("jm");
+
+If you are familiar with Builder in ruby, this will seem familiar to you:
+
+  jm.render(function(b) {
+    b.div({'class': 'foo'}, function() {
+      b.img({src: "foo.jpg"});
+    });
+  });
+
+  // produces:
+
+  <div class="foo">
+    <img src="foo.jpg" />
+  </div>
+
+The real power here is that the data (templates) are really
+just code, and can be shared between both client and server side.
 
 === Examples
 
 Self-closing tags:
 
-  JM.render(function() { img(); });
+  jm.render(function(b) { b.img(); });
   => <img />
 
 Tags with attributes:
 
-  JM.render(function() {
+  jm.render(function() {
     div({id: 'bar'});
   });
   // => <div id='bar'></div>
 
 Nested tags:
 
-  JM.render(function() {
+  jm.render(function() {
     ul(function() {
       li(function() {
         text("hello")
@@ -41,7 +58,7 @@ Nested tags:
 Notice that the "text" method is a way to output raw text into the buffer.
 It's an "escape hatch" of sorts.
 
-A convenience provided is provided by JM in a situation like the one above:
+A convenience provided is provided by jm in a situation like the one above:
 
   li(function() {
     text("hello");
@@ -55,9 +72,9 @@ can be more easily represented as:
 
   // => <li>hello</li>
 
-JM.render can also take an object/hash of locals:
+jm.render can also take an object/hash of locals:
 
-  JM.render({user_name: 'scott'}, function() {
+  jm.render({user_name: 'scott'}, function() {
     text(user_name);
   });
   // => "scott"
@@ -70,45 +87,36 @@ Since templates are just functions, partials can be passed in as locals and rend
     p();
   };
 
-  JM.render({partial: partial}, function() {
-    text(JM.render(partial));
+  jm.render({partial: partial}, function() {
+    text(jm.render(partial));
   });
 
   # => "<p>scott</p>"
 
-The JM library provides a more idiomatic way, which involves registering the partial template:
+The jm library provides a more idiomatic way, which involves registering the partial template:
 
-  JM.register("my_partial", function() {
+  jm.register("my_partial", function() {
     li(function() {
       text(name)
     });
   });
 
-  JM.render(function() {
+  jm.render(function() {
     render("my_partial", {name: 'scott'})
   });
 
 
 == Bugs:
 
-* Variables that appear in local scope aren't.  They must either be registered as templates, or passed in as locals:
-
-    var x = 10;
-
-    JM.render(function() {
-      text(x);
-    });
-
-    // => ERROR
-
-* At the present time, JM doesn't perform w3c validation, as markaby can (optionally).
+* html5 attributes aren't yet supported - this will be fixed in a future version.
+* At the present time, jm doesn't perform w3c validation, as markaby can (optionally).
 * It suffers from the same performance constraints that markaby does, namely, that it doesn't compile the templates.  Whether or not this is a real performance bottle neck is still to be determined.
 
 == License
 
 (The MIT License)
 
-Copyright (c) 2009-2010 Scott Taylor &lt;scott@railsnewbie.com&gt;
+Copyright (c) 2010 Scott Taylor &lt;scott@railsnewbie.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
