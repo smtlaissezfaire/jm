@@ -30,25 +30,27 @@ just code, and can be shared between both client and server side.
 
 Self-closing tags:
 
-  jm.render(function(b) { b.img(); });
+  jm.render(function(b) {
+    b.img();
+  });
   => <img />
 
 Tags with attributes:
 
-  jm.render(function() {
-    div({id: 'bar'});
+  jm.render(function(b) {
+    b.div({id: 'bar'});
   });
   // => <div id='bar'></div>
 
 Nested tags:
 
-  jm.render(function() {
-    ul(function() {
-      li(function() {
-        text("hello")
-      })
-    })
-  })
+  jm.render(function(b) {
+    b.ul(function() {
+      b.li(function() {
+        b.text("hello");
+      });
+    });
+  });
 
   // =>
     <ul>
@@ -60,49 +62,49 @@ It's an "escape hatch" of sorts.
 
 A convenience provided is provided by jm in a situation like the one above:
 
-  li(function() {
-    text("hello");
-  })
+  b.li(function(b) {
+    b.text("hello");
+  });
 
   // => <li>hello</li>
 
 can be more easily represented as:
 
-  li("hello");
+  b.li("hello");
 
   // => <li>hello</li>
 
 jm.render can also take an object/hash of locals:
 
-  jm.render({user_name: 'scott'}, function() {
-    text(user_name);
+  jm.render({user_name: 'scott'}, function(b) {
+    b.text(user_name);
   });
   // => "scott"
 
 === Partials:
 
-Since templates are just functions, partials can be passed in as locals and rendered:
+Since templates are just functions, partials in scope can be rendered:
 
-  var partial = function() {
-    p();
+  var partial = function(b) {
+    b.p();
   };
 
-  jm.render({partial: partial}, function() {
-    text(jm.render(partial));
+  jm.render(function(b) {
+    b.text(b.render(partial));
   });
 
   # => "<p>scott</p>"
 
 The jm library provides a more idiomatic way, which involves registering the partial template:
 
-  jm.register("my_partial", function() {
-    li(function() {
-      text(name)
+  jm.register("my_partial", function(b) {
+    b.li(function() {
+      b.text(name)
     });
   });
 
-  jm.render(function() {
-    render("my_partial", {name: 'scott'})
+  jm.render(function(b) {
+    b.render("my_partial", {name: 'scott'})
   });
 
 
