@@ -90,7 +90,7 @@ Since templates are just functions, partials in scope can be rendered:
   };
 
   jm.render(function(b) {
-    b.text(b.render(partial));
+    b.text(b.render(partial, {name: 'scott'}));
   });
 
   # => "<p>scott</p>"
