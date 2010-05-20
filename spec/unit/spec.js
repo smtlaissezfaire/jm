@@ -277,8 +277,8 @@ describe("JM", function() {
     it("should be at 0.1.0", function() {
       JM.major.should.equal(0);
       JM.minor.should.equal(1);
-      JM.tiny.should.equal(0);
-      JM.version.should.equal("0.1.0");
+      JM.tiny.should.equal(1);
+      JM.version.should.equal("0.1.1");
     });
   });
 
